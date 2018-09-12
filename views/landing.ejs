@@ -1,0 +1,40 @@
+<% include partials/header %>
+
+<div class="container text-center">
+    <p class="display-1">Is It Raining?</p>
+    <div class="col-md-4 m-auto">
+        <form>
+            <div class="form-group">
+                <label for="zip-code">Zip Code</label>
+                <input type="text" class="form-control form-control-lg" id="zip-code" placeholder="10012">
+                <button class="btn btn-light mt-4">Do I need an Umbrella?</button> 
+            </div>
+        </form>       
+    </div>
+        
+    <div>
+        <h1><%= geo.address_components[1].long_name %>, <%= geo.address_components[4].short_name %></h1>
+    </div>
+    <div class="card-deck">
+        <div class="card text-light bg-primary mb-3">
+            <div class="card-header">Summary</div>
+            <div class="card-body">
+                <h4 class="card-title"><%= json.currently.summary %></h4>
+            </div>
+        </div>
+        <div class="card text-light bg-primary mb-3">
+            <div class="card-header">Tempature</div>
+            <div class="card-body">
+                <h4 class="card-title"><%= Math.round(json.currently.temperature) %></h4>
+            </div>
+        </div>
+        <div class="card text-light bg-primary mb-3">
+            <div class="card-header">Feels Like</div>
+            <div class="card-body">
+                <h4 class="card-title"><%= Math.round(json.currently.apparentTemperature) %></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>
