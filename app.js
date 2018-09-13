@@ -1,16 +1,16 @@
-import apiConfig from 'apiKeys.js';
-
 const express = require('express');
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
+const apiKey = require('./keys');
+
 const app = express();
 const googleAPI = "https://maps.googleapis.com/maps/api/geocode/json?address=";
 const darkSky = 'https://api.darksky.net/forecast/';
 var zip = 10012;
 var lat = '40.730610';
 var lng = '-73.935242';
-const googleKey = apiConfig.googleKey;
-const darkSkyKey = apiConfig.darkSkyKey;
+const googleKey = apiKey.googleKey;
+const darkSkyKey = apiKey.darkSkyKey;
 const options = {
     method: 'GET',
     mode: 'cors'
@@ -33,6 +33,7 @@ const setWeather = (zip) =>{
                 throw new Error('bad request');
         })
         .then ( (geo) =>{
+            console.log(geo);
             lat = geo.results[0].geometry.location.lat;
             lng = geo.results[0].geometry.location.lng;
             let url = darkSky  + darkSkyKey + '/' + lat + ',' + lng;
@@ -75,6 +76,7 @@ app.post('/', function(req, res){
                 throw new Error('bad request');
         })
         .then ( (geo) =>{
+            console.log(geo);
             lat = geo.results[0].geometry.location.lat;
             lng = geo.results[0].geometry.location.lng;
             let url = darkSky  + darkSkyKey + '/' + lat + ',' + lng;
@@ -99,6 +101,6 @@ app.post('/', function(req, res){
         });
 });
 
-app.listen(8080, e => {
+app.listen(5500, e => {
     console.log('server has started');
 });
