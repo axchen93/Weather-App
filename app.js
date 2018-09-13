@@ -1,21 +1,28 @@
+import apiConfig from 'apiKeys.js';
+
 const express = require('express');
 const fetch = require('node-fetch');
+const bodyParser = require('body-parser');
 const app = express();
-const googleAPI = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+const googleAPI = "https://maps.googleapis.com/maps/api/geocode/json?address=";
 const darkSky = 'https://api.darksky.net/forecast/';
-const darkSkyKey = 'd164e7314fa315f1df13d8d23d484306';
 var zip = 10012;
-var lat = '';
-var lng = '';
+var lat = '40.730610';
+var lng = '-73.935242';
+const googleKey = apiConfig.googleKey;
+const darkSkyKey = apiConfig.darkSkyKey;
 const options = {
     method: 'GET',
     mode: 'cors'
 }
 
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.json());
 
+//function to set the inital screen
 const setWeather = (zip) =>{
-    var googleURL = googleAPI + zip;
+    var googleURL = googleAPI + zip + googleKey;
 
     var requestGoogle = new fetch.Request(googleURL, options);
     fetch(requestGoogle)
@@ -53,6 +60,45 @@ const setWeather = (zip) =>{
 
 setWeather(zip);
 
-app.listen(5500, e => {
+
+//post to change the area after submit
+app.post('/', function(req, res){
+    zip = req.body.zip_code;
+    var googleURL = googleAPI + zip + googleKey;
+
+    var requestGoogle = new fetch.Request(googleURL, options);
+    fetch(requestGoogle)
+        .then ( (response) => {
+            if(response.ok)
+                return response.json();
+            else
+                throw new Error('bad request');
+        })
+        .then ( (geo) =>{
+            lat = geo.results[0].geometry.location.lat;
+            lng = geo.results[0].geometry.location.lng;
+            let url = darkSky  + darkSkyKey + '/' + lat + ',' + lng;
+            var request = new fetch.Request(url, options);
+            fetch(request)
+                .then( (response) =>{
+                    if(response.ok)
+                        return response.json();
+                    else
+                        throw new Error('Bad HTTP')
+                })
+                .then ( (weather) => {
+                    res.render('landing', {json : weather, geo : geo.results[0]} );
+                    
+                })
+                .catch( (err) => {
+                    console.log('ERROR ' + err.message);
+                });
+        })
+        .catch( (err) => {
+            console.log('ERROR: ' + err.message);
+        });
+});
+
+app.listen(8080, e => {
     console.log('server has started');
 });

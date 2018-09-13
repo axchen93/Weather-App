@@ -3,17 +3,17 @@
 <div class="container text-center">
     <p class="display-1">Is It Raining?</p>
     <div class="col-md-4 m-auto">
-        <form>
+        <form method="POST" action="/">
             <div class="form-group">
                 <label for="zip-code">Zip Code</label>
-                <input type="text" class="form-control form-control-lg" id="zip-code" placeholder="10012">
+                <input type="text" class="form-control form-control-lg" name="zip_code" placeholder="<%= geo.address_components[0].long_name %>" required maxlength="5">
                 <button class="btn btn-light mt-4">Do I need an Umbrella?</button> 
             </div>
         </form>       
     </div>
-        
-    <div>
         <h1><%= geo.address_components[1].long_name %>, <%= geo.address_components[4].short_name %></h1>
+    <div>
+        
     </div>
     <div class="card-deck">
         <div class="card text-light bg-primary mb-3">
