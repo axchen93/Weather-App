@@ -1,0 +1,18 @@
+body{
+    color: #fff;
+    /* background: #00BFFF; */
+}
+
+.navbar{
+    border-bottom: #000000 3px solid;
+}
+
+#today{
+    background: url(../images/clear-day.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed; 
+    padding-top: 50px;
+    min-height: 700px;
+}
+

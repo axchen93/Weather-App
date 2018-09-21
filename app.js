@@ -1,7 +1,7 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
-const apiKey = require('./keys');
+const apiKey = require('./js/keys');
 
 const app = express();
 const googleAPI = "https://maps.googleapis.com/maps/api/geocode/json?address=";
