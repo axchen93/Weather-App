@@ -1,15 +1,15 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
-const apiKey = require('./js/keys');
+const apiKey = require('./keys.js');
 
 const app = express();
-const googleAPI = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+const geocodioAPI = "https://api.geocod.io/v1.3/geocode?q=";
 const darkSky = 'https://api.darksky.net/forecast/';
 var zip = 10012;
 var lat = '40.730610';
 var lng = '-73.935242';
-const googleKey = apiKey.googleKey;
+const geocodioKey = apiKey.geocodioKey;
 const darkSkyKey = apiKey.darkSkyKey;
 const options = {
     method: 'GET',
@@ -19,12 +19,13 @@ const options = {
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
 
 //function to set the inital screen
 const setWeather = (zip) =>{
-    var googleURL = googleAPI + zip + googleKey;
+    var geocodioURL = geocodioAPI + zip + geocodioKey;
 
-    var requestGoogle = new fetch.Request(googleURL, options);
+    var requestGoogle = new fetch.Request(geocodioURL, options);
     fetch(requestGoogle)
         .then ( (response) => {
             if(response.ok)
@@ -33,9 +34,8 @@ const setWeather = (zip) =>{
                 throw new Error('bad request');
         })
         .then ( (geo) =>{
-            console.log(geo);
-            lat = geo.results[0].geometry.location.lat;
-            lng = geo.results[0].geometry.location.lng;
+            lat = geo.results[0].location.lat;
+            lng = geo.results[0].location.lng;
             let url = darkSky  + darkSkyKey + '/' + lat + ',' + lng;
             var request = new fetch.Request(url, options);
             fetch(request)
@@ -46,16 +46,17 @@ const setWeather = (zip) =>{
                         throw new Error('Bad HTTP')
                 })
                 .then ( (weather) => {
+                    console.log("here");
                     app.get('/', function(req, res){
                         res.render('landing', {json : weather, geo : geo.results[0]} );
                     });
                 })
                 .catch( (err) => {
-                    console.log('ERROR ' + err.message);
+                    console.log('ERROR ' + err.message + ' darksky');
                 });
         })
         .catch( (err) => {
-            console.log('ERROR: ' + err.message);
+            console.log('ERROR: ' + err.message + ' geo');
         });
 };
 
@@ -65,9 +66,9 @@ setWeather(zip);
 //post to change the area after submit
 app.post('/', function(req, res){
     zip = req.body.zip_code;
-    var googleURL = googleAPI + zip + googleKey;
+    geocodioURL = geocodioAPI + zip + geocodioKey;
 
-    var requestGoogle = new fetch.Request(googleURL, options);
+    var requestGoogle = new fetch.Request(geocodioURL, options);
     fetch(requestGoogle)
         .then ( (response) => {
             if(response.ok)
@@ -76,9 +77,8 @@ app.post('/', function(req, res){
                 throw new Error('bad request');
         })
         .then ( (geo) =>{
-            console.log(geo);
-            lat = geo.results[0].geometry.location.lat;
-            lng = geo.results[0].geometry.location.lng;
+            lat = geo.results[0].location.lat;
+            lng = geo.results[0].location.lng;
             let url = darkSky  + darkSkyKey + '/' + lat + ',' + lng;
             var request = new fetch.Request(url, options);
             fetch(request)
@@ -93,14 +93,14 @@ app.post('/', function(req, res){
                     
                 })
                 .catch( (err) => {
-                    console.log('ERROR ' + err.message);
+                    console.log('ERROR ' + err.message + ' darksky-post');
                 });
         })
         .catch( (err) => {
-            console.log('ERROR: ' + err.message);
+            console.log('ERROR: ' + err.message + ' geo-post');
         });
 });
 
-app.listen(5500, e => {
+app.listen(8080, e => {
     console.log('server has started');
 });
