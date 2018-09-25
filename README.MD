@@ -1,7 +1,7 @@
 # Weather App (Unconstruction)
 ## Web app that checks the weather using:
 - [Dark Sky API](https://darksky.net/dev/docs).
-- [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/intro).
+- [Geocodio API](https://www.geocod.io/).
 - App uses BootStrap 4 and Express.js
 
 ## Dependencies
