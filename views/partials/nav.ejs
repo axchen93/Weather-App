@@ -1,0 +1,36 @@
+
+<!--NAVABAR-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top" id="main-nav">
+    <div class="container">
+        <!--Logo-->
+        <h1 class="display-7">TEMPESTAS</h1>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--collapse menu-->
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <!--forcast-->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="#today" class="nav-link">Today</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#hourly" class="nav-link">Hourly</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#5-day" class="nav-link">5 Day</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#10-day" class="nav-link">10 Day</a>
+                </li>
+            </ul>
+            <!--zipcode-->
+            <form method="POST" action="/" class="form-inline ml-auto">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-md " name="zip_code" placeholder="Zipcode" required maxlength="5">
+                    <button class="btn-primary m-2">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>

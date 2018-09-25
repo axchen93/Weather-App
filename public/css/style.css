@@ -8,7 +8,7 @@ body{
 }
 
 #today{
-    background: url(../images/clear-day.png);
+    background: url(../images/clear-night.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed; 

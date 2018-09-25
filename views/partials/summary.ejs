@@ -1,0 +1,58 @@
+<!--SUMMARY-->
+<section id="today">
+    <div class="container">
+        <div class="row p-5">
+            <div class="col">
+                <h1><%= geo.address_components.city%>, <%= geo.address_components.state %></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card-deck">
+                    <div class="card text-light bg-primary mb-3">
+                        <div class="card-header">Summary</div>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= json.currently.summary %></h4>
+                        </div>
+                    </div>
+                    <div class="card text-light bg-primary mb-3">
+                        <div class="card-header">Temperature</div>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= Math.round(json.currently.temperature) %></h4>
+                        </div>
+                    </div>
+                    <div class="card text-light bg-primary mb-3">
+                        <div class="card-header">Feels Like</div>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= Math.round(json.currently.apparentTemperature) %></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card-deck">
+                    <div class="card text-light bg-primary mb-3">
+                        <div class="card-header">High/Low</div>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= Math.round(json.daily.data[0].temperatureHigh)%> / <%=Math.round(json.daily.data[0].temperatureLow)%></h4>
+                        </div>
+                    </div>
+                    <div class="card text-light bg-primary mb-3">
+                        <div class="card-header">Chance</div>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= json.currently.precipProbability * 100 %>%</h4>
+                        </div>
+                    </div>
+                    <div class="card text-light bg-primary mb-3">
+                        <div class="card-header">Humidity</div>
+                        <div class="card-body">
+                            <h4 class="card-title"><%= json.currently.humidity * 100 %>%</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
