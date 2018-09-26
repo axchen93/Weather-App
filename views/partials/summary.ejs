@@ -1,66 +1,49 @@
 <!--SUMMARY-->
 <% var icon = json.currently.icon %>
-<section id="today" style=<%="background-image:url('../images/"+icon+".png')"%>  >
-    <div class="container">
-        <div class="row p-5">
-            <div class="col">
-                <h1><%= geo.address_components.city%>, <%= geo.address_components.state %></h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card-deck">
-                    <div class="card text-light bg-primary mb-3">
-                        <div class="card-header">Summary</div>
-                        <div class="card-body">
-                            <h4 class="card-title"><%= json.currently.summary %></h4>
+<section id="today" style=<%="background-image:url('../images/"+icon+".png')"%> >
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 p-5 m-5">
+                    <div class="row">
+                        <h1 class="display-4"><%= geo.address_components.city%>, <%= geo.address_components.state %></h1>
+                    </div>
+                    <div class="row">
+                        <h1 class="display-4"><%= Math.round(json.currently.temperature) %> &deg;</h1>
+                    </div>
+                    <div class="row">
+                        <div >
+                            <h4 >Feels like: <%= Math.round(json.currently.apparentTemperature) %> &deg;</h4>
                         </div>
                     </div>
-                    <div class="card text-light bg-primary mb-3">
-                        <div class="card-header">Temperature</div>
-                        <div class="card-body">
-                            <h4 class="card-title"><%= Math.round(json.currently.temperature) %> &deg;</h4>
+                    <div class="row">
+                        <div class="col-sm-4 my-4 p-2" id="today-info">
+                            <div>
+                                <h4>Summary: <small><%= json.currently.summary %></small></h4>
+                            </div>
+                            <div>
+                                <h4>Hi: <small><%= Math.round(json.daily.data[0].temperatureHigh)%> &deg; </small></h4>
+                            </div>
+                            <div>
+                                <h4>Low: <small><%=Math.round(json.daily.data[0].temperatureLow)%> &deg;</small></h4>
+                            </div>
+                            <div>
+                                <h4>Humidity: 
+                                    <small>
+                                        <%= Math.round(json.currently.humidity  * 100) %>
+                                        <i class="fas fa-percentage"></i>
+                                    </small>
+                                </h4>
+                            </div>
+                            <div>
+                                <h4>Precipitation: 
+                                    <small>
+                                        <%= json.currently.precipProbability * 100 %>
+                                        <i class="fas fa-percentage"></i>
+                                    </small></h4>
+                            </div>
                         </div>
                     </div>
-                    <div class="card text-light bg-primary mb-3">
-                        <div class="card-header">Feels Like</div>
-                        <div class="card-body">
-                            <h4 class="card-title"><%= Math.round(json.currently.apparentTemperature) %> &deg;</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card-deck">
-                    <div class="card text-light bg-primary mb-3">
-                        <div class="card-header">High/Low</div>
-                        <div class="card-body">
-                            <h4 class="card-title"><%= Math.round(json.daily.data[0].temperatureHigh)%> &deg; / <%=Math.round(json.daily.data[0].temperatureLow)%> &deg;</h4>
-                        </div>
-                    </div>
-                    <div class="card text-light bg-primary mb-3">
-                        <div class="card-header">Chance</div>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <span>
-                                    <%= json.currently.precipProbability * 100 %>
-                                    <i class="fas fa-percentage"></i>
-                                </span>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="card text-light bg-primary mb-3">
-                        <div class="card-header">Humidity</div>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <span>
-                                    <%= json.currently.humidity * 100 %>
-                                    <i class="fas fa-percentage"></i>
-                                </span>
-                            </h4>
-                        </div>
                     </div>
                 </div>
             </div>
