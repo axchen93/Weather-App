@@ -6,7 +6,7 @@ const apiKey = require('./keys.js');
 const app = express();
 const geocodioAPI = "https://api.geocod.io/v1.3/geocode?q=";
 const darkSky = 'https://api.darksky.net/forecast/';
-var zip = 10012;
+var loc = "New York";
 var lat = '40.730610';
 var lng = '-73.935242';
 const geocodioKey = apiKey.geocodioKey;
@@ -22,8 +22,8 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
 //function to set the inital screen
-const setWeather = (zip) =>{
-    var geocodioURL = geocodioAPI + zip + geocodioKey;
+const setWeather = (loc) =>{
+    var geocodioURL = geocodioAPI + loc + geocodioKey;
 
     var requestGoogle = new fetch.Request(geocodioURL, options);
     fetch(requestGoogle)
@@ -60,13 +60,13 @@ const setWeather = (zip) =>{
         });
 };
 
-setWeather(zip);
+setWeather(loc);
 
 
 //post to change the area after submit
 app.post('/', function(req, res){
-    zip = req.body.zip_code;
-    geocodioURL = geocodioAPI + zip + geocodioKey;
+    loc = req.body.location;
+    geocodioURL = geocodioAPI + loc + geocodioKey;
 
     var requestGoogle = new fetch.Request(geocodioURL, options);
     fetch(requestGoogle)
